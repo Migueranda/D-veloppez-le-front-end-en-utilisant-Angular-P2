@@ -1,0 +1,25 @@
+#items-number{
+    border: #04838F solid 2px;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 300px
+}
+body {
+    margin-top: 50px;
+}
+
+.tool-tip, .icon-tool-tip{
+    margin: 0px;
+}
+
+::ng-deep ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
+    .tooltip-caret.position-top {
+    border-top-color: #04838F;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    color: white;
+    padding: 10px 15px;
+    background-color:#04838F;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}

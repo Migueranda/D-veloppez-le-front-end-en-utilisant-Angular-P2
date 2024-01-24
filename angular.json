@@ -23,6 +23,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [ 
+              "lodash"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -103,5 +106,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "f553138b-ad17-428e-a1b6-df8d575bb2dd"
   }
 }

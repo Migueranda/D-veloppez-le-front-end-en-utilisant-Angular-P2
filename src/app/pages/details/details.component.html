@@ -1,0 +1,47 @@
+<div *ngIf="olympics$ | async as olympicData" class="container-fluid">  
+    <div class="row">
+        <div class="d-flex justify-content-center flex-row mb-3" >
+            <div class="col-sm-3">
+                <!-- <h3 class="text-center rounded-2 border p-2 fw-light m-4 $cyan-800 bg-cyan-800" id="title">{{selectedCountry.country}}</h3> -->
+                <h3 class="text-center rounded-2 border p-2 m-4 text-nowrap $cyan-800 bg-cyan-800" id="title">{{selectedCountry.country}}</h3>
+            </div>
+        </div>     
+        <div class=" items-card d-flex justify-content-center flex-row mb-3 flex-wrap">        
+            <!-- <div class="d-flex justify-content-center flex-row mb-3"> -->
+                <div class="text-center col-sm-2 pt-3 pb-3 m-4 $cyan-800" id="items-number">Number of entries<br/>
+                    <span>{{selectedCountry.participations.length}}</span>
+                </div>                
+                <div class="text-center col-sm-2 pt-3 pb-3 m-4 $cyan-800" id="items-number">Total number medals<br/>
+                    <span>{{getNumberOfMedalsCount()}}</span>
+                </div>
+                <div class="text-center col-sm-2 pt-3 pb-3 m-4 $cyan-800" id="items-number">Total number of athletes<br/>
+                    <span>{{getNumberOfAthletes()}}</span>
+                </div>
+            <!-- </div> -->
+            <!-- [view]="viewPC" -->
+        <div class="row">  
+            <div #ContainerRef id="container-chart-parents">
+                <ngx-charts-line-chart class="text-center col-sm-4 pt-3 m-4 $cyan-800 "
+                    (window:resize)="onResize($event)"
+                    [scheme]="colorSchemePC "
+                    [legend]="legend"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxis]="xAxis"
+                    [yAxis]="yAxis"
+                    [xAxisLabel]="xAxisLabel"   
+                    [timeline]="timeline"
+                    [results]="lineData"
+                    [view]=" view"
+                >
+                </ngx-charts-line-chart>
+            </div>      
+        </div>
+            <!-- <button (click)="onBackToHome()" type="button">Home</button> -->
+            <button (click)="onBackToHome()" type="button">Home</button>
+            
+    </div>  
+</div>     
+    <!-- pb-3 -->
+    <!-- <div routerLink="/">Home</div> -->
+
