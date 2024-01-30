@@ -7,15 +7,13 @@
 body {
     margin-top: 50px;
 }
-
 .tool-tip, .icon-tool-tip{
     margin: 0px;
 }
-
 ::ng-deep ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
     .tooltip-caret.position-top {
-    border-top-color: #04838F;
-    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+        border-top-color: #04838F;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
     }
     
     color: white;

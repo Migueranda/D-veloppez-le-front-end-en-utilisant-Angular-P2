@@ -11,11 +11,9 @@
 }
 button {
     background-color:  #04838F;
-    // background-color: transparent;
     box-sizing: border-box;
     padding: 5px 10px;
     border: none;
-    // box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     margin-right: 20px;
     outline: none;
     font-size: 20px;
@@ -24,11 +22,8 @@ button {
     width: 250px;
     height: 50px;
     color: white;
-    border-radius: 5px;
-   
-    
-  }
-  button:hover{
-    
+    border-radius: 5px;   
+}
+button:hover{    
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }

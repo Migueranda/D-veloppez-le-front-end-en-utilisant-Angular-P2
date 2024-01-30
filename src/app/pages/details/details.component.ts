@@ -10,85 +10,18 @@ import { SerieData, LineData } from 'src/app/core/models/serieData';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss']
 })
+
 export class DetailsComponent implements OnInit {
-  public lineData :LineData [] = [] 
+  public lineData :LineData [] = [];
   public olympics$: Observable<Olympic[]> = of([]);
   public olympicData: Olympic [] = [];
+
   public selectedCountry: Olympic = {
     id: 0,
     country: '',
     participations: []
   }
 
-  multi = [
-    {
-      "name": "Germany",
-      "series": [
-        {
-          "name": "1990",
-          "value": 62000000
-        },
-        {
-          "name": "2010",
-          "value": 73000000
-        },
-        {
-          "name": "2011",
-          "value": 89400000
-        }
-      ]
-    },
-  
-    {
-      "name": "USA",
-      "series": [
-        {
-          "name": "1990",
-          "value": 250000000
-        },
-        {
-          "name": "2010",
-          "value": 309000000
-        },
-        {
-          "name": "2011",
-          "value": 311000000
-        }
-      ]
-    },
-  
-    {
-      "name": "France",
-      "series": [
-        {
-          "name": "1990",
-          "value": 58000000
-        },
-        {
-          "name": "2010",
-          "value": 50000020
-        },
-        {
-          "name": "2011",
-          "value": 58000000
-        }
-      ]
-    },
-    {
-      "name": "UK",
-      "series": [
-        {
-          "name": "1990",
-          "value": 57000000
-        },
-        {
-          "name": "2010",
-          "value": 62000000
-        }
-      ]
-    }
-  ];
- 
   view: any = [];
   legend: boolean = false;
   showLabels: boolean = true;
@@ -100,7 +33,6 @@ export class DetailsComponent implements OnInit {
   xAxisLabel: string = 'Dates';
   timeline: boolean = true;
   colorSchemePC = "cool";
-  
 
   constructor(
     private route: ActivatedRoute,
@@ -110,14 +42,9 @@ export class DetailsComponent implements OnInit {
     Object.assign(this, { olympicService });
     this.view = [innerWidth / 1.3, 400];
   }
-
+// Récupération de l'id dans le path
   ngOnInit(): void {
-    const countryId : string|null = this.route.snapshot.paramMap.get('id')// code pour recuperer l'id dans le path
-    console.log('countryId')
-    console.log(countryId)
-
-    
-
+    const countryId : string|null = this.route.snapshot.paramMap.get('id')
     this.olympicService.loadInitialData()
       .subscribe({
         next:(
@@ -126,13 +53,11 @@ export class DetailsComponent implements OnInit {
             if(countryId){
               for(let country of this.olympicData){ 
                 if(country.id === +countryId){
-                    this.selectedCountry = country
+                  this.selectedCountry = country;
                 }
               }
-              console.log('this.selectedCountry')
-              console.log(this.selectedCountry)
-              this.setLineData()
-              this.lineData = [...this.lineData]
+              this.setLineData();
+              this.lineData = [...this.lineData];
             }
           }
         )
@@ -140,39 +65,30 @@ export class DetailsComponent implements OnInit {
   }
 
   onBackToHome(){
-    this.router.navigateByUrl('/')
-
+    this.router.navigateByUrl('/');
   }
-
+ // calcul du nombre de médailles de chaque pays
   getNumberOfMedalsCount(){
-    let number = 0
+    let number = 0;
     for(let participation of this.selectedCountry.participations){
-      number += participation.medalsCount
+      number += participation.medalsCount;
     }
     return number
   }
-
+  // calcul du nombre d'athlètes de chaque pays
   getNumberOfAthletes(){
-    let number = 0
+    let number = 0;
     for(let participation of this.selectedCountry.participations){
-      number += participation.athleteCount
+      number += participation.athleteCount;
     }
     return number
   }
-
+//preparation de données pour le graphique line chart
   setLineData(){
-    // public serieData :{name: string, value: number} [] = []
-    // public lineData :{name: string, series: [] } [] = [] 
-
     let objetData: LineData = {
       name: this.selectedCountry.country,
       series: []
     }
-
-    // let objetData :{name: string, series: [] } ={
-    //   name: this.selectedCountry.country,
-    //   series: []
-    // }
 
     for(let participation of this.selectedCountry.participations){
       let serieData: SerieData = {
@@ -180,11 +96,10 @@ export class DetailsComponent implements OnInit {
             value: 0
           }  
           serieData.value = participation.medalsCount 
-          serieData.name = String(participation.year)
-      objetData.series.push(serieData)
+          serieData.name = String(participation.year);
+      objetData.series.push(serieData);
     }
-  this.lineData.push(objetData)
-    console.log(this.lineData)
+  this.lineData.push(objetData);
   }
 
   onResize(event: any) {

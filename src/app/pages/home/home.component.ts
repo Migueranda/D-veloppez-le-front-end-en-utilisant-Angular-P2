@@ -14,11 +14,8 @@ export class HomeComponent implements OnInit {
 
   public olympics$: Observable<Olympic[]> = of([]);
   public olympicData:Olympic [] = [];
-  public pieData :{name: string, value: number} [] = []
+  public pieData :{name: string, value: number} [] = [];
 
-  // ngx - options (librairie graphique)
-  // view: [number, number] = [];
-  // view: any = [];
   animationPC = false;
   colorSchemePC = "cool";
   labelsPC = true;
@@ -29,9 +26,7 @@ export class HomeComponent implements OnInit {
     private router: Router
   ){
     Object.assign(this, { OlympicService });
-    // this.view = [innerWidth / 1.3, 400];
   }
-
   // init
   ngOnInit(): void {
     // chargement des données à partir du service vers this.olympicData
@@ -48,9 +43,7 @@ export class HomeComponent implements OnInit {
           }
         )
       });
-  }
-
-  
+  }  
   // number of JO
   getNumberOfJo(){
     let numberOfJo = new Set<Number>();
@@ -99,21 +92,14 @@ export class HomeComponent implements OnInit {
     } 
     return height
   }
-
+  
   // selection d"un pays dans le Graph Pie => routage vers page détail en fonction de l'ID du pays
   onSelect(sliceData: {name: string, value: number, label:string}): void {
-    // console.log('Item clicked', JSON.parse(JSON.stringify(sliceData)));
     for(let country of this.olympicData){ 
       if(country.country === sliceData.name){
-        this.router.navigate(['/detail', country.id])
+        this.router.navigate(['/detail', country.id]);
       }
     }
   }
-
-  // onResize(event: any) {
-  //   this.view = [event.target.innerWidth / 1.35, 400];
-  // }
-
-  
 
 }
