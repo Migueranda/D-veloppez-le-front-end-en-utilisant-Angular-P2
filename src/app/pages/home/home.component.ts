@@ -76,14 +76,15 @@ export class HomeComponent implements OnInit {
       let olympicCountry: {name: string, value: number} = {
         name: '',
         value: 0
-      }  
+      }
+      
       olympicCountry.name = country.country    
       for(let medalsCount of country.participations) {
         olympicCountry.value += medalsCount.medalsCount 
       }
       this.pieData.push(olympicCountry)
     }
-   }
+  }
 
   setPieHeight(width:number){
     let height: number = 400

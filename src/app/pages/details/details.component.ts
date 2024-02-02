@@ -22,7 +22,7 @@ export class DetailsComponent implements OnInit {
     participations: []
   }
 
-  view: any = [];
+  view: [number, number] = [0, 0]; // Initialize with default values if needed
   legend: boolean = false;
   showLabels: boolean = true;
   animations: boolean = true;
@@ -42,10 +42,11 @@ export class DetailsComponent implements OnInit {
     Object.assign(this, { olympicService });
     this.view = [innerWidth / 1.3, 400];
   }
+
 // Récupération de l'id dans le path
   ngOnInit(): void {
     const countryId : string|null = this.route.snapshot.paramMap.get('id')
-    this.olympicService.loadInitialData()
+    this.olympicService.loadInitialData()  
       .subscribe({
         next:(
           value => {
@@ -83,7 +84,7 @@ export class DetailsComponent implements OnInit {
     }
     return number
   }
-//preparation de données pour le graphique line chart
+  //preparation de données pour le graphique line chart
   setLineData(){
     let objetData: LineData = {
       name: this.selectedCountry.country,
@@ -99,11 +100,15 @@ export class DetailsComponent implements OnInit {
           serieData.name = String(participation.year);
       objetData.series.push(serieData);
     }
-  this.lineData.push(objetData);
+    this.lineData.push(objetData);
   }
 
-  onResize(event: any) {
-    this.view = [event.target.innerWidth / 1.35, 400];
+  onResize(event: Event) : void {
+    //condition pour eviter des erreurs dans le cas où event.target soit null or pas une instance de window
+    if (event && event.target instanceof Window){
+      this.view = [event.target.innerWidth / 1.35, 400];
+    }
+    
   }
 
 }

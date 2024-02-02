@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'detail', component: DetailsComponent },
   { path: 'detail/:id', component: DetailsComponent },
   { path: '**', component: NotFoundComponent },// wildcard component: NotFoundComponent, 
+ 
 ];
 
 @NgModule({
