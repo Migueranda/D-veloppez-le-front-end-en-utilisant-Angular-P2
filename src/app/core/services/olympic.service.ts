@@ -9,6 +9,7 @@ import { Observable} from 'rxjs';
 })
 
 export class OlympicService {
+  
   constructor(private http: HttpClient) {}
   loadInitialData() : Observable<Olympic[]> {
     return this.http.get<Olympic[]>( '../../../assets/mock/olympic.json').pipe(

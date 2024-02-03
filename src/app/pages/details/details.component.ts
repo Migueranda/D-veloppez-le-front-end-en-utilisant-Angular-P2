@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { Observable,of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SerieData, LineData } from 'src/app/core/models/serieData';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-details',
@@ -11,10 +12,11 @@ import { SerieData, LineData } from 'src/app/core/models/serieData';
   styleUrls: ['./details.component.scss']
 })
 
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
   public lineData :LineData [] = [];
   public olympics$: Observable<Olympic[]> = of([]);
   public olympicData: Olympic [] = [];
+  private dataSubscription: Subscription | undefined;
 
   public selectedCountry: Olympic = {
     id: 0,
@@ -69,8 +71,16 @@ export class DetailsComponent implements OnInit {
             }
           }
         )
-      }); 
+    }); 
   }
+  
+  ngOnDestroy(): void {
+    // Unsubscribe to prevent memory leaks
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
+  }
+
 
   onBackToHome(){
     this.router.navigateByUrl('/');
