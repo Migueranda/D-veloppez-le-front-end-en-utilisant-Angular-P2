@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
   }
 
   // source : olympicData => résultat : pieData comme attendu dans le graph demandé
-  setPieData(){
+    setPieData(){
     for(let country of this.olympicData){ 
       let olympicCountry: {name: string, value: number} = {
         name: '',

@@ -51,14 +51,21 @@ export class DetailsComponent implements OnInit {
         next:(
           value => {
             this.olympicData = value;
+            // récupération du pays sous forme d'objet this.selectedCountry en fonction du countryId
             if(countryId){
               for(let country of this.olympicData){ 
                 if(country.id === +countryId){
                   this.selectedCountry = country;
                 }
               }
+              // route vers 404 si aucun pays trouvé avec countryId
+              if(this.selectedCountry.id == 0){
+              this.router.navigateByUrl('/404');
+              }else{
+              // sinon génération du graphique
               this.setLineData();
               this.lineData = [...this.lineData];
+              }
             }
           }
         )
