@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { Observable,of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SerieData, LineData } from 'src/app/core/models/serieData';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-details',
@@ -11,10 +12,11 @@ import { SerieData, LineData } from 'src/app/core/models/serieData';
   styleUrls: ['./details.component.scss']
 })
 
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
   public lineData :LineData [] = [];
   public olympics$: Observable<Olympic[]> = of([]);
   public olympicData: Olympic [] = [];
+  public dataSubscription: Subscription | undefined;
 
   public selectedCountry: Olympic = {
     id: 0,
@@ -45,8 +47,8 @@ export class DetailsComponent implements OnInit {
 
 // Récupération de l'id dans le path
   ngOnInit(): void {
-    const countryId : string|null = this.route.snapshot.paramMap.get('id')
-    this.olympicService.loadInitialData()  
+    const countryId : string|null = this.route.snapshot.paramMap.get('id') 
+    this.dataSubscription = this.olympicService.loadInitialData()  
       .subscribe({
         next:(
           value => {
@@ -61,7 +63,7 @@ export class DetailsComponent implements OnInit {
               // route vers 404 si aucun pays trouvé avec countryId
               if(this.selectedCountry.id == 0){
               this.router.navigateByUrl('/404');
-              }else{
+              }else{  
               // sinon génération du graphique
               this.setLineData();
               this.lineData = [...this.lineData];
@@ -69,7 +71,14 @@ export class DetailsComponent implements OnInit {
             }
           }
         )
-      }); 
+    }); 
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe to prevent memory leaks
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
   }
 
   onBackToHome(){
