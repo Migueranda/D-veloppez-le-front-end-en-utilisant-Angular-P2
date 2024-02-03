@@ -16,7 +16,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public lineData :LineData [] = [];
   public olympics$: Observable<Olympic[]> = of([]);
   public olympicData: Olympic [] = [];
-  private dataSubscription: Subscription | undefined;
+  public dataSubscription: Subscription | undefined;
 
   public selectedCountry: Olympic = {
     id: 0,
@@ -47,8 +47,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
 // Récupération de l'id dans le path
   ngOnInit(): void {
-    const countryId : string|null = this.route.snapshot.paramMap.get('id')
-    this.olympicService.loadInitialData()  
+    const countryId : string|null = this.route.snapshot.paramMap.get('id') 
+    this.dataSubscription = this.olympicService.loadInitialData()  
       .subscribe({
         next:(
           value => {
@@ -63,7 +63,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
               // route vers 404 si aucun pays trouvé avec countryId
               if(this.selectedCountry.id == 0){
               this.router.navigateByUrl('/404');
-              }else{
+              }else{  
               // sinon génération du graphique
               this.setLineData();
               this.lineData = [...this.lineData];
@@ -73,14 +73,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
         )
     }); 
   }
-  
+
   ngOnDestroy(): void {
     // Unsubscribe to prevent memory leaks
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
     }
   }
-
 
   onBackToHome(){
     this.router.navigateByUrl('/');

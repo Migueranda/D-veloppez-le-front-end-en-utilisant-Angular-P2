@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit, OnDestroy{
   public olympics$: Observable<Olympic[]> = of([]);
   public olympicData:Olympic [] = [];
   public pieData :{name: string, value: number} [] = [];
-  private dataSubscription: Subscription | undefined;
+  public dataSubscription: Subscription | undefined;
 
   animationPC = false;
   colorSchemePC = "cool";
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy{
   // init
   ngOnInit(): void {
     // chargement des données à partir du service vers this.olympicData
-    this.olympicService.loadInitialData()
+  this.dataSubscription = this.olympicService.loadInitialData()
       .subscribe({
         next:(
           value => {
