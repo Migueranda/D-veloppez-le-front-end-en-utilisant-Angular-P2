@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',   
@@ -10,11 +11,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy{
 
   public olympics$: Observable<Olympic[]> = of([]);
   public olympicData:Olympic [] = [];
   public pieData :{name: string, value: number} [] = [];
+  public dataSubscription: Subscription | undefined;
 
   animationPC = false;
   colorSchemePC = "cool";
@@ -30,7 +32,7 @@ export class HomeComponent implements OnInit {
   // init
   ngOnInit(): void {
     // chargement des données à partir du service vers this.olympicData
-    this.olympicService.loadInitialData()
+  this.dataSubscription = this.olympicService.loadInitialData()
       .subscribe({
         next:(
           value => {
@@ -44,6 +46,14 @@ export class HomeComponent implements OnInit {
         )
       });
   }  
+
+  ngOnDestroy(): void {
+    // Unsubscribe to prevent memory leaks
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
+  }
+
   // number of JO
   getNumberOfJo(){
     let numberOfJo = new Set<Number>();
