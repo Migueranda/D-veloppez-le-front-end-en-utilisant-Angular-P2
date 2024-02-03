@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./details.component.scss']
 })
 
-export class DetailsComponent implements OnInit, OnDestroy {
+export class DetailsComponent implements OnInit {
   public lineData :LineData [] = [];
   public olympics$: Observable<Olympic[]> = of([]);
   public olympicData: Olympic [] = [];
@@ -48,7 +48,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 // Récupération de l'id dans le path
   ngOnInit(): void {
     const countryId : string|null = this.route.snapshot.paramMap.get('id') 
-    this.dataSubscription = this.olympicService.loadInitialData()  
+    this.olympicService.loadInitialData()  
       .subscribe({
         next:(
           value => {
@@ -72,13 +72,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
           }
         )
     }); 
-  }
-
-  ngOnDestroy(): void {
-    // Unsubscribe to prevent memory leaks
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    }
   }
 
   onBackToHome(){
