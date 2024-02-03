@@ -48,7 +48,7 @@ export class DetailsComponent implements OnInit{
 // Récupération de l'id dans le path
   ngOnInit(): void {
     const countryId : string|null = this.route.snapshot.paramMap.get('id') 
-    this.olympicService.loadInitialData()  
+    this.dataSubscription =  this.olympicService.loadInitialData()
       .subscribe({
         next:(
           value => {
@@ -73,8 +73,12 @@ export class DetailsComponent implements OnInit{
         )
     }); 
   }
-
-  
+  ngOnDestroy(): void {
+    // Unsubscribe to prevent memory leaks
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
+  }  
 
   onBackToHome(){
     this.router.navigateByUrl('/');
